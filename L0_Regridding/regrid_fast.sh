@@ -6,11 +6,11 @@ MC=${1} # first argument, modelling centre
 MODEL=${2} # second argument, model
 
 # Create new directory if one doesn't exist for the model
-mkdir -p /users/jk/22/achereque/Paper2/L0_Regridded_Data/${MC}/${MODEL}
+mkdir -p /users/jk/22/achereque/Paper2/L0_Regridding/${MC}/${MODEL}
 
 # Directories
 DATA_LOC=/users/jk/22/achereque/Paper2/L0_BTIM/${MC}/${MODEL}
-OUTLOC=/users/jk/22/achereque/Paper2/L0_Regridded_Data/${MC}/${MODEL}
+OUTLOC=/users/jk/22/achereque/Paper2/L0_Regridding/${MC}/${MODEL}
 
 ### Conservative regridding
 # list files and then, in parallel, remap with first order conservative method
