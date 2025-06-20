@@ -5,9 +5,9 @@ select_dates() {
     local MC=$1; # argument 1
     local MODEL=$2; # argument 2
 
-    local REF_FILE=/users/jk/22/achereque/Paper2/L0_Reference/NSIDC_EASE2_N25km_v04.nc;
-    local IN_LOC=/users/jk/22/achereque/Paper2/L0_Regridding;
-    local OUT_LOC=/users/jk/22/achereque/Paper2/L1_Minor_Processing;
+    local REF_FILE=$HOME/L0_Reference/NSIDC_EASE2_N25km_v04.nc;
+    local IN_LOC=$HOME/L0_Regridding;
+    local OUT_LOC=$HOME/L1_Minor_Processing;
 
     mkdir -p ${OUT_LOC}/${MC}/${MODEL};
 
