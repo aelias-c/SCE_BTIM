@@ -5,7 +5,7 @@ import numpy as np
 import os
 mc, model = sys.argv[1], sys.argv[2]
 
-weight_ds = xr.open_dataset('/users/jk/22/achereque/Paper2/L0_Reference/NOAA_like.weekly_weights.nc')
+weight_ds = xr.open_dataset(os.environ['HOME'] + '/L0_Reference/NOAA_like.weekly_weights.nc')
 weight_ds = weight_ds.where(weight_ds.time.dt.year >= 1980, drop=True).sortby('time')
 mname = dict(zip(range(1, 13), ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']))
 
