@@ -2,13 +2,14 @@ import xarray as xr
 import sys
 from datetime import datetime
 import numpy as np
+import os
 mc, model = sys.argv[1], sys.argv[2]
 
 weight_ds = xr.open_dataset('/users/jk/22/achereque/Paper2/L0_Reference/NOAA_like.weekly_weights.nc')
 weight_ds = weight_ds.where(weight_ds.time.dt.year >= 1980, drop=True).sortby('time')
 mname = dict(zip(range(1, 13), ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']))
 
-data = xr.open_dataset(f'/users/jk/22/achereque/Paper2/L1_Minor_Processing/{mc}/{model}/{mc}.{model}.reanalysis.NOAA_dates.nc').swe
+data = xr.open_dataset(os.environ['HOME'] + f'/L1_Minor_Processing/{mc}/{model}/{mc}.{model}.reanalysis.NOAA_dates.nc').swe
 
 for m in [9,10,11,12,1,2,3,4,5,6]:
 
@@ -44,4 +45,4 @@ for m in [9,10,11,12,1,2,3,4,5,6]:
     subset.attrs['summary'] = 'Subset of full time series using dates that appear in the Rutgers SCE dataset' +\
                                  f'and which contribute some weight (part of the preceeding week) to the month={mname[m]}.'
     
-    subset.to_netcdf(f'/users/jk/22/achereque/Paper2/L2_Processed_Vals/{mc}.{model}.reanalysis.weekly.swe.{mstr}.nc')
+    subset.to_netcdf(os.environ['HOME'] + f'/L2_Processed_Vals/{mc}.{model}.reanalysis.weekly.swe.{mstr}.nc')
