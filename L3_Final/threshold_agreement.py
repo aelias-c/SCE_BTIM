@@ -4,6 +4,7 @@ import pandas as pd
 import sys
 from datetime import datetime
 from multiprocessing import Pool, Manager
+import os
 
 mc, model = sys.argv[1], sys.argv[2]
 month = sys.argv[3]
@@ -16,7 +17,7 @@ lmm_str = str(lmm[0]) + 'N_' + str(lmm[1]) + 'N'
 
 ### load REF for dates ###
 
-reference = xr.open_dataset('/users/jk/22/achereque/Paper2/L0_Reference/NSIDC_EASE2_N25km_v04.nc')
+reference = xr.open_dataset(os.environ['HOME'] + '/L0_Reference/NSIDC_EASE2_N25km_v04.nc')
 
 masks = {'Eur': xr.where(reference.lsmask==2, 1, 0).astype('int8'),
          'NAm': xr.where(reference.lsmask==1, 1, 0).astype('int8')}
@@ -27,7 +28,7 @@ reference['snow'] = xr.where(reference.land_ID==2,2,0) * xr.where((reference.lat
 
 ### process data by threshold ###
 
-fname = f'/users/jk/22/achereque/Paper2/L2_Processed_Vals/{mc}.{model}.reanalysis.weekly.swe.{mstr}.nc'
+fname = os.environ['HOME'] + f'/L2_Processed_Vals/{mc}.{model}.reanalysis.weekly.swe.{mstr}.nc'
 
 data = xr.open_dataset(fname)
 data = xr.where((reference.latitude>=lmm[0])&(reference.latitude<=lmm[1]), data, np.nan)
@@ -77,5 +78,5 @@ ds_NAm['threshold'] = [float(i.split('_')[0])/10 for i in ds_NAm.threshold.value
 final_ds = xr.concat([ds_NAm, ds_Eur], pd.Index([1,2], name='region')).transpose('time', 'region', 'threshold')
 
 # Save to file
-final_ds.to_netcdf(f'/users/jk/22/achereque/Paper2/L3_Final/{mc}.{model}.reanalysis.weekly.scf_agreements.{lmm_str}.{mstr}.nc')
+final_ds.to_netcdf(os.environ['HOME'] + f'/L3_Final/{mc}.{model}.reanalysis.weekly.scf_agreements.{lmm_str}.{mstr}.nc')
 
